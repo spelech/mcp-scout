@@ -87,26 +87,26 @@ class DockerScanner:
             attrs = container
             cid = attrs.get("Id", "")
             raw_name = attrs.get("Name", "")
-            status = attrs.get("State", {}).get("Status", "running")
-            labels = attrs.get("Config", {}).get("Labels") or {}
-            image = attrs.get("Config", {}).get("Image") or attrs.get("Image", "")
+            status = (attrs.get("State") or {}).get("Status", "running")
+            labels = (attrs.get("Config") or {}).get("Labels") or {}
+            image = (attrs.get("Config") or {}).get("Image") or attrs.get("Image", "")
         else:
             attrs = getattr(container, "attrs", {}) or {}
             cid = getattr(container, "id", "") or attrs.get("Id", "")
             raw_name = getattr(container, "name", "") or attrs.get("Name", "")
-            status = getattr(container, "status", "") or attrs.get("State", {}).get("Status", "running")
-            labels = getattr(container, "labels", None) or attrs.get("Config", {}).get("Labels") or {}
+            status = getattr(container, "status", "") or (attrs.get("State") or {}).get("Status", "running")
+            labels = getattr(container, "labels", None) or (attrs.get("Config") or {}).get("Labels") or {}
             
             image_obj = getattr(container, "image", None)
             image_tags = getattr(image_obj, "tags", []) if image_obj else []
             if image_tags:
                 image = image_tags[0]
             else:
-                image = attrs.get("Config", {}).get("Image") or attrs.get("Image", "")
+                image = (attrs.get("Config") or {}).get("Image") or attrs.get("Image", "")
 
         name = raw_name.lstrip("/")
 
-        config = attrs.get("Config", {}) or {}
+        config = attrs.get("Config") or {}
         cmd = config.get("Cmd")
         command_str = " ".join(cmd) if isinstance(cmd, list) else (str(cmd) if cmd else None)
 
@@ -128,8 +128,8 @@ class DockerScanner:
                 env_vars[env_entry] = ""
 
         # Parse network IP addresses
-        net_settings = attrs.get("NetworkSettings", {}) or {}
-        networks = net_settings.get("Networks", {}) or {}
+        net_settings = attrs.get("NetworkSettings") or {}
+        networks = net_settings.get("Networks") or {}
         ip_addresses: dict[str, str] = {}
         for net_name, net_data in networks.items():
             if isinstance(net_data, dict):
