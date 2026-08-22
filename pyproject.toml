@@ -1,0 +1,53 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "mcp-scout"
+version = "0.1.0"
+description = "Active Docker container discovery, protocol handshake prober, and interactive compose label injector for Model Context Protocol (MCP) servers"
+readme = "README.md"
+license = { text = "MIT" }
+authors = [
+    { name = "Steven T. Pelech" }
+]
+requires-python = ">=3.10"
+dependencies = [
+    "typer>=0.9.0",
+    "rich>=13.0.0",
+    "questionary>=2.0.0",
+    "httpx>=0.25.0",
+    "docker>=7.0.0",
+    "ruamel.yaml>=0.18.0",
+    "pydantic>=2.0.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0.0",
+    "pytest-asyncio>=0.23.0",
+    "pytest-cov>=4.1.0",
+    "ruff>=0.3.0",
+    "mypy>=1.9.0",
+]
+
+[project.scripts]
+mcp-scout = "mcp_scout.cli:app"
+
+[project.urls]
+Homepage = "https://github.com/spelech/mcp-scout"
+Repository = "https://github.com/spelech/mcp-scout"
+Issues = "https://github.com/spelech/mcp-scout/issues"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["mcp_scout*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+asyncio_mode = "auto"
+pythonpath = ["."]
+
+[tool.coverage.run]
+source = ["mcp_scout"]
+omit = ["tests/*"]
