@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "mcp-scout"
-version = "0.1.0"
+version = "0.1.1"
 description = "Active Docker container discovery, protocol handshake prober, and interactive compose label injector for Model Context Protocol (MCP) servers"
 readme = "README.md"
 license = { text = "MIT" }

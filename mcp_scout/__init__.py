@@ -1,6 +1,6 @@
 """MCP Scout - Docker MCP container discovery, active protocol handshake prober, and compose label injector."""
 
-__version__ = "0.1.0"
+__version__ = "0.1.1"
 
 from mcp_scout.models import (
     ContainerInfo,
